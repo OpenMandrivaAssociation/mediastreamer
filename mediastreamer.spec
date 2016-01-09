@@ -4,14 +4,13 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	2.12.0
-Release:	%mkrel 1
+Version:	2.13.0
+Release:	1
 License:	GPL-2.0+
-Group:		Communications/Telephony
+Group:		Communications
 URL:		http://linphone.org/eng/documentation/dev/mediastreamer2.html
 Source0:	http://download.savannah.gnu.org/releases/linphone/%{name}/%{name}-%{version}.tar.gz
 Patch0:		mediastreamer-2.11.1-linkage_fix.diff
-BuildRequires:  alsa-lib-devel
 BuildRequires:  automake 
 BuildRequires:  libtool
 BuildRequires:  ffmpeg-devel
@@ -19,20 +18,19 @@ BuildRequires:  gettext
 BuildRequires:  gettext-devel
 BuildRequires:  gsm-devel
 BuildRequires:  intltool
-BuildRequires:  libpcap-devel
-BuildRequires:  libv4l-devel
-BuildRequires:  libxext-devel
-BuildRequires:  libxv-devel
+BuildRequires:  pcap-devel
+BuildRequires:  pkgconfig(libv4l2)
+BuildRequires:  pkgconfig(xext)
+BuildRequires:  pkgconfig(xv)
 BuildRequires:  vim-common
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(glew) >= 1.5
 BuildRequires:  pkgconfig(glu)
-BuildRequires:  pkgconfig(libbzrtp) >= 1.0.1
 BuildRequires:  pkgconfig(libpulse) >= 0.9.21
 BuildRequires:  pkgconfig(libsrtp) >= 1.5.2
 BuildRequires:  pkgconfig(libupnp) >= 1.6
 BuildRequires:  pkgconfig(libupnp) < 1.7
-BuildRequires:  pkgconfig(libvpx)
+BuildRequires:  pkgconfig(vpx)
 BuildRequires:  pkgconfig(opus) >= 0.9.0
 BuildRequires:  pkgconfig(ortp) >= 0.24.0
 BuildRequires:  pkgconfig(spandsp) >= 0.0.6
@@ -76,14 +74,13 @@ develop programs using the mediastreamer library.
 %prep
 
 %setup -q
-%autopatch -p1
+%apply_patches
 
 %build
 sh ./autogen.sh
 
 %configure2_5x \
     --enable-external-ortp \
-    --enable-zrtp \
     --disable-strict \
     --disable-static
 
@@ -106,29 +103,11 @@ rm -rf %{buildroot}%{_docdir}/mediastreamer*
 %{_datadir}/images/nowebcamCIF.jpg
 
 %files -n %{libname}
-%{_libdir}/libmediastreamer_base.so.%{major}{,.*}
-%{_libdir}/libmediastreamer_voip.so.%{major}{,.*}
+%{_libdir}/libmediastreamer_base.so.%{major}*
+%{_libdir}/libmediastreamer_voip.so.%{major}*
 
 %files -n %{develname}
 %{_includedir}/mediastreamer2/
 %{_libdir}/libmediastreamer_*.so
 %{_libdir}/pkgconfig/*.pc
-
-
-
-
-%changelog
-* Mon Nov 16 2015 oden <oden> 1:2.12.0-1.mga6
-+ Revision: 903588
-- soname bump to 6
-- 2.12.0
-
-* Mon Aug 24 2015 sander85 <sander85> 1:2.11.2-2.mga6
-+ Revision: 869124
-- Rebuild for glew 1.13.0
-
-* Sun Aug 02 2015 oden <oden> 1:2.11.2-1.mga6
-+ Revision: 860701
-- fix br: vim-common
-- imported package mediastreamer
 
