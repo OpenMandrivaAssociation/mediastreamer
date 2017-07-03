@@ -9,7 +9,7 @@
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
 Version:	2.13.0
-Release:	3
+Release:	4
 License:	GPL-2.0+
 Group:		Communications
 URL:		http://linphone.org/eng/documentation/dev/mediastreamer2.html
@@ -84,20 +84,16 @@ develop programs using the mediastreamer library.
 sh ./autogen.sh
 
 %configure2_5x \
-    --enable-external-ortp \
-    --disable-strict \
-    --disable-static
+	--enable-external-ortp \
+	--disable-strict \
+	--disable-static \
+	--disable-documentation
 
 %make
 
 %install
 %make_install
 %find_lang %{name}
-
-find %{buildroot} -type f -name "*.la" -delete -print
-
-# remove unwanted docs, generated if doxygen is installed
-rm -rf %{buildroot}%{_docdir}/mediastreamer*
 
 %files -f %{name}.lang
 %doc AUTHORS COPYING NEWS README
