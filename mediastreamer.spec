@@ -1,4 +1,4 @@
-%define major 6
+%define major 10
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
 %ifarch %{ix86}
@@ -8,14 +8,17 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	2.13.0
-Release:	4
+Version:	2.16.1
+Release:	1
 License:	GPL-2.0+
 Group:		Communications
 URL:		http://linphone.org/eng/documentation/dev/mediastreamer2.html
-Source0:	http://download.savannah.gnu.org/releases/linphone/%{name}/%{name}-%{version}.tar.gz
-Patch0:		mediastreamer-2.11.1-linkage_fix.diff
-BuildRequires:  automake 
+Source0:	https://linphone.org/releases/sources/%{name}/%{name}-%{version}.tar.gz
+Patch0:		mediastreamer-2.16.1-linkage_fix.patch
+Patch1:		0001-allow-MS2_GIT_VERSION-to-be-undefined-as-it-will-be-.patch
+Patch2:		mediastreamer-2.16.1-cmake-install-pkgconfig-pc-file.patch
+Patch3:		mediastreamer-2.16.1-cmake-config-location.patch
+BuildRequires:  cmake
 BuildRequires:  libtool
 BuildRequires:  ffmpeg-devel
 BuildRequires:  gettext
@@ -81,24 +84,24 @@ develop programs using the mediastreamer library.
 %apply_patches
 
 %build
-sh ./autogen.sh
-
-%configure2_5x \
-	--enable-external-ortp \
-	--disable-strict \
-	--disable-static \
-	--disable-documentation
+%cmake \
+  -DENABLE_STATIC:BOOL=NO \
+  -DENABLE_STRICT:BOOL=NO \
+  -DENABLE_DOC=NO \
+  -DENABLE_UNIT_TESTS=NO \
+  -DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2
 
 %make
 
 %install
-%make_install
-%find_lang %{name}
+%make_install -C build
 
-%files -f %{name}.lang
-%doc AUTHORS COPYING NEWS README
+#find_lang %{name}
+
+%files
+%doc AUTHORS COPYING NEWS README.md
 %{_bindir}/mediastream
-%{_bindir}/msaudiocmp
+%{_bindir}/mkvstream
 %dir %{_datadir}/images/
 %{_datadir}/images/nowebcamCIF.jpg
 
@@ -110,4 +113,5 @@ sh ./autogen.sh
 %{_includedir}/mediastreamer2/
 %{_libdir}/libmediastreamer_*.so
 %{_libdir}/pkgconfig/*.pc
+%{_libdir}/cmake/Mediastreamer2/
 

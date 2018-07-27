@@ -1,0 +1,12 @@
+diff -up ./CMakeLists.txt.orig ./CMakeLists.txt
+--- ./CMakeLists.txt.orig	2017-12-31 16:07:08.235004811 +0200
++++ ./CMakeLists.txt	2017-12-31 16:07:55.708213335 +0200
+@@ -634,7 +634,7 @@ configure_file("${CMAKE_CURRENT_SOURCE_D
+         @ONLY
+ )
+ 
+-set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_DATADIR}/Mediastreamer2/cmake")
++set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_DATADIR}/Mediastreamer2/cmake" CACHE PATH "CMake config file location")
+ install(EXPORT ${EXPORT_TARGETS_NAME}Targets
+ 	FILE Mediastreamer2Targets.cmake
+ 	DESTINATION ${CONFIG_PACKAGE_LOCATION}

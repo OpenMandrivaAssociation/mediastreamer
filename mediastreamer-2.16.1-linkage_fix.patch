@@ -1,0 +1,24 @@
+diff -Nru a/src/Makefile.am b/src/Makefile.am
+--- a/src/Makefile.am	2016-08-18 16:17:37.000000000 +0200
++++ b/src/Makefile.am	2016-12-02 14:20:04.426010760 +0100
+@@ -57,7 +57,7 @@
+ 					$(PCAP_LIBS) \
+ 					$(OPUS_LIBS) \
+ 					$(SRTP_LIBS) \
+-					$(BCTOOLBOX_LIBS)
++					$(BCTOOLBOX_LIBS) -lXext
+ 
+ 
+ if LIBBZRTP
+diff -up ./src/CMakeLists.txt.orig ./src/CMakeLists.txt
+--- ./src/CMakeLists.txt.orig	2017-12-31 14:20:24.097673933 +0200
++++ ./src/CMakeLists.txt	2017-12-31 14:22:38.888617380 +0200
+@@ -610,7 +610,7 @@ if(X11_FOUND)
+ 	list(APPEND VOIP_LIBS ${X11_LIBRARIES})
+ endif()
+ if(XV_FOUND)
+-	list(APPEND VOIP_LIBS ${XV_LIBRARIES})
++	list(APPEND VOIP_LIBS ${XV_LIBRARIES} Xext)
+ endif()
+ if(GLX_FOUND)
+ 	list(APPEND VOIP_LIBS ${GLX_LIBRARIES})

@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   mediastreamer-2.13.0.tar.gz: 84646757e6a826c40b8c901d847d46f9e1bc2e81
+sources:
+  mediastreamer-2.16.1.tar.gz: 502cfb629cfd14bbe5a09fe824c211bd53a907d3
