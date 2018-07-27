@@ -45,6 +45,8 @@ BuildRequires:  pkgconfig(speex) >= 1.1.6
 BuildRequires:  pkgconfig(speexdsp)
 BuildRequires:  pkgconfig(theora) >= 1.0alpha7
 BuildRequires:  pkgconfig(vpx)
+BuildRequires:	bctoolbox-static-devel
+
 # mediastreamer was broken out from linphone which provided lib[64]mediastreamer4-3.8.1-1.mga5
 Epoch: 1
 
