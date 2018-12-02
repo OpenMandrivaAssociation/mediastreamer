@@ -32,6 +32,7 @@ BuildRequires:  pkgconfig(xv)
 BuildRequires:  vim-common
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
+BuildRequires:	pkgconfig(dri)
 BuildRequires:  pkgconfig(glew) >= 1.5
 BuildRequires:  pkgconfig(glu)
 BuildRequires:  pkgconfig(libpulse) >= 0.9.21
@@ -47,6 +48,7 @@ BuildRequires:  pkgconfig(speexdsp)
 BuildRequires:  pkgconfig(theora) >= 1.0alpha7
 BuildRequires:  pkgconfig(vpx)
 BuildRequires:	bctoolbox-static-devel
+BuildRequires:	cmake(BZRTP)
 
 # mediastreamer was broken out from linphone which provided lib[64]mediastreamer4-3.8.1-1.mga5
 Epoch: 1
