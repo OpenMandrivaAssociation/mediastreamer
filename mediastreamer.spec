@@ -27,6 +27,7 @@ BuildRequires:  gsm-devel
 BuildRequires:  intltool
 BuildRequires:  pcap-devel
 BuildRequires:  pkgconfig(libv4l2)
+BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(xv)
 BuildRequires:  vim-common
