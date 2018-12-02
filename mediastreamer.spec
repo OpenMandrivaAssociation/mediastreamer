@@ -31,6 +31,7 @@ BuildRequires:  pkgconfig(xext)
 BuildRequires:  pkgconfig(xv)
 BuildRequires:  vim-common
 BuildRequires:  pkgconfig(alsa)
+BuildRequires:	pkgconfig(gl)
 BuildRequires:  pkgconfig(glew) >= 1.5
 BuildRequires:  pkgconfig(glu)
 BuildRequires:  pkgconfig(libpulse) >= 0.9.21
