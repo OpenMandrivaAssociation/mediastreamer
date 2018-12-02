@@ -92,6 +92,7 @@ develop programs using the mediastreamer library.
   -DENABLE_STRICT:BOOL=NO \
   -DENABLE_DOC=NO \
   -DENABLE_UNIT_TESTS=NO \
+  -DOpenGL_GL_PREFERENCE=GLVND \
   -DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2
 
 %make
