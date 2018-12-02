@@ -33,6 +33,7 @@ BuildRequires:  vim-common
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(dri)
+BuildRequires:	pkgconfig(libglvnd)
 BuildRequires:  pkgconfig(glew) >= 1.5
 BuildRequires:  pkgconfig(glu)
 BuildRequires:  pkgconfig(libpulse) >= 0.9.21
