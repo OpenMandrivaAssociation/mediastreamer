@@ -90,13 +90,6 @@ develop programs using the mediastreamer library.
 %setup -q
 %apply_patches
 
-ls -l /usr/include/GL/gl.h
-ls -l /usr/include/GL/glx.h
-rpm -qf /usr/include/GL/gl.h
-rpm -qf /usr/include/GL/glx.h
-echo '#include <GL/gl.h>' |clang -x c -c - -o test
-echo '#include <GL/glx.h>' |clang -x c -c - -o test
-
 %build
 %cmake \
   -DENABLE_STATIC:BOOL=NO \
