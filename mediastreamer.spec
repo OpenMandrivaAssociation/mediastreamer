@@ -38,7 +38,7 @@ BuildRequires:	pkgconfig(libglvnd)
 BuildRequires:  pkgconfig(glew) >= 1.5
 BuildRequires:  pkgconfig(glu)
 BuildRequires:  pkgconfig(libpulse) >= 0.9.21
-BuildRequires:  pkgconfig(libsrtp) >= 1.5.2
+BuildRequires:  pkgconfig(libsrtp2)
 BuildRequires:  pkgconfig(libupnp) >= 1.6
 BuildRequires:  pkgconfig(libupnp) < 1.7
 BuildRequires:  pkgconfig(vpx)
