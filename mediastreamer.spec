@@ -9,7 +9,7 @@
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
 Version:	2.16.1
-Release:	3
+Release:	4
 License:	GPL-2.0+
 Group:		Communications
 URL:		http://linphone.org/eng/documentation/dev/mediastreamer2.html
@@ -48,7 +48,7 @@ BuildRequires:  pkgconfig(spandsp) >= 0.0.6
 BuildRequires:  pkgconfig(speex) >= 1.1.6
 BuildRequires:  pkgconfig(speexdsp)
 BuildRequires:  pkgconfig(theora) >= 1.0alpha7
-BuildRequires:  pkgconfig(vpx)
+BuildRequires:  pkgconfig(vpx) >= 1.8.0
 BuildRequires:	bctoolbox-static-devel
 BuildRequires:	cmake(BZRTP)
 
