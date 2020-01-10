@@ -88,7 +88,7 @@ develop programs using the mediastreamer library.
 %prep
 
 %setup -q
-%apply_patches
+%autopatch -p1
 
 %build
 %cmake \
