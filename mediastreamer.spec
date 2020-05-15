@@ -40,7 +40,7 @@ BuildRequires:  pkgconfig(glu)
 BuildRequires:  pkgconfig(libpulse) >= 0.9.21
 BuildRequires:  pkgconfig(libsrtp2)
 BuildRequires:  pkgconfig(libupnp) >= 1.6
-BuildRequires:  pkgconfig(libupnp) < 1.7
+#BuildRequires:  pkgconfig(libupnp) < 1.7
 BuildRequires:  pkgconfig(vpx)
 BuildRequires:  pkgconfig(opus) >= 0.9.0
 BuildRequires:  pkgconfig(ortp) >= 0.24.0
