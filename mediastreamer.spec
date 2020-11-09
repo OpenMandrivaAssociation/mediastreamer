@@ -1,4 +1,4 @@
-%define major 10
+%define major 11
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
 %ifarch %{ix86}
@@ -8,16 +8,18 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	2.16.1
-Release:	5
+Version:	4.4.6
+Release:	1
 License:	GPL-2.0+
 Group:		Communications
-URL:		http://linphone.org/eng/documentation/dev/mediastreamer2.html
-Source0:	https://linphone.org/releases/sources/%{name}/%{name}-%{version}.tar.gz
-Patch0:		mediastreamer-2.16.1-linkage_fix.patch
-Patch1:		0001-allow-MS2_GIT_VERSION-to-be-undefined-as-it-will-be-.patch
-Patch2:		mediastreamer-2.16.1-cmake-install-pkgconfig-pc-file.patch
-Patch3:		mediastreamer-2.16.1-cmake-config-location.patch
+URL:		https://www.linphone.org/technical-corner/mediastreamer2
+# https://gitlab.linphone.org/BC/public/mediastreamer2
+Source0:	https://gitlab.linphone.org/BC/public/mediastreamer2/-/archive/%{version}/mediastreamer2-%{version}.tar.bz2
+Patch0:		mediastreamer-4.4.6-linkage_fix.patch
+Patch1:		mediastreamer-install-pkgconfig-and-cmake-files.patch
+#Patch1:		0001-allow-MS2_GIT_VERSION-to-be-undefined-as-it-will-be-.patch
+#Patch2:		mediastreamer-2.16.1-cmake-install-pkgconfig-pc-file.patch
+#Patch3:		mediastreamer-2.16.1-cmake-config-location.patch
 BuildRequires:  cmake
 BuildRequires:  libtool
 BuildRequires:  ffmpeg-devel
@@ -50,7 +52,7 @@ BuildRequires:  pkgconfig(speexdsp)
 BuildRequires:  pkgconfig(theora) >= 1.0alpha7
 BuildRequires:  pkgconfig(vpx) >= 1.8.0
 BuildRequires:	bctoolbox-static-devel
-BuildRequires:	cmake(BZRTP)
+BuildRequires:	cmake(bzrtp)
 
 # mediastreamer was broken out from linphone which provided lib[64]mediastreamer4-3.8.1-1.mga5
 Epoch: 1
@@ -86,40 +88,36 @@ This package contains header files and development libraries needed to
 develop programs using the mediastreamer library.
 
 %prep
-
-%setup -q
-%autopatch -p1
+%autosetup -p1 -n mediastreamer2-%{version}
+%cmake \
+	-DENABLE_STATIC:BOOL=NO \
+	-DENABLE_STRICT:BOOL=NO \
+	-DENABLE_DOC=NO \
+	-DENABLE_UNIT_TESTS=NO \
+	-DOpenGL_GL_PREFERENCE=GLVND \
+	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
+	-G Ninja
 
 %build
-%cmake \
-  -DENABLE_STATIC:BOOL=NO \
-  -DENABLE_STRICT:BOOL=NO \
-  -DENABLE_DOC=NO \
-  -DENABLE_UNIT_TESTS=NO \
-  -DOpenGL_GL_PREFERENCE=GLVND \
-  -DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2
 
-%make
+%ninja_build -C build
 
 %install
-%make_install -C build
+%ninja_install -C build
 
 #find_lang %{name}
 
 %files
-%doc AUTHORS COPYING NEWS README.md
 %{_bindir}/mediastream
 %{_bindir}/mkvstream
 %dir %{_datadir}/images/
 %{_datadir}/images/nowebcamCIF.jpg
 
 %files -n %{libname}
-%{_libdir}/libmediastreamer_base.so.%{major}*
-%{_libdir}/libmediastreamer_voip.so.%{major}*
+%{_libdir}/libmediastreamer.so.%{major}*
 
 %files -n %{develname}
 %{_includedir}/mediastreamer2/
-%{_libdir}/libmediastreamer_*.so
+%{_libdir}/libmediastreamer.so
 %{_libdir}/pkgconfig/*.pc
-%{_libdir}/cmake/Mediastreamer2/
-
+%{_datadir}/cmake/Mediastreamer2/
