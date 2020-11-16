@@ -115,5 +115,3 @@ develop programs using the mediastreamer library.
 %files -n %{develname}
 %{_includedir}/mediastreamer2/
 %{_libdir}/libmediastreamer.so
-%{_libdir}/pkgconfig/*.pc
-%{_datadir}/cmake/Mediastreamer2/
