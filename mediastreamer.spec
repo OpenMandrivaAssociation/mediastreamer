@@ -16,6 +16,7 @@ URL:		https://www.linphone.org/technical-corner/mediastreamer2
 # https://gitlab.linphone.org/BC/public/mediastreamer2
 Source0:	https://gitlab.linphone.org/BC/public/mediastreamer2/-/archive/%{version}/mediastreamer2-%{version}.tar.bz2
 BuildRequires:  cmake
+BuildRequires:  ninja
 BuildRequires:  libtool
 BuildRequires:  ffmpeg-devel
 BuildRequires:  gettext
