@@ -1,10 +1,8 @@
 %define major 11
 %define libname %mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
-%ifarch %{ix86}
-# Allow undefined references to __udivdi3 and friends
-%define _disable_ld_no_undefined 1
-%endif
+
+%global optflags %{optflags} -fcommon -Wno-implicit-function-declaration
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
