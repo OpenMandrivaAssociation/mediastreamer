@@ -8,12 +8,15 @@
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
 Version:	4.4.8
-Release:	1
+Release:	2
 License:	GPL-2.0+
 Group:		Communications
 URL:		https://www.linphone.org/technical-corner/mediastreamer2
 # https://gitlab.linphone.org/BC/public/mediastreamer2
 Source0:	https://gitlab.linphone.org/BC/public/mediastreamer2/-/archive/%{version}/mediastreamer2-%{version}.tar.bz2
+Patch0:	mediastreamer-linkage_fix.patch
+Patch1:	mediastreamer-cmake-install-pkgconfig-pc-file.patch
+Patch2:	mediastreamer-cmake-config-location.patch
 BuildRequires:  cmake
 BuildRequires:  ninja
 BuildRequires:  libtool
@@ -85,6 +88,9 @@ develop programs using the mediastreamer library.
 
 %prep
 %autosetup -p1 -n mediastreamer2-%{version}
+# fix version
+sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' CMakeLists.txt
+
 %cmake \
 	-DENABLE_STATIC:BOOL=NO \
 	-DENABLE_STRICT:BOOL=NO \
