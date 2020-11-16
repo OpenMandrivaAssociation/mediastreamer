@@ -121,6 +121,6 @@ sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' C
 %files -n %{develname}
 %{_includedir}/mediastreamer2/
 %{_libdir}/libmediastreamer.so
-%{_datadir}/Mediastreamer2/cmake/*.cmake
 %{_libdir}/pkgconfig/mediastreamer.pc
-%{_libdir}/cmake/Mediastreamer2/
+%dir %{_libdir}/cmake/Mediastreamer2
+%{_libdir}/cmake/Mediastreamer2/*.cmake
