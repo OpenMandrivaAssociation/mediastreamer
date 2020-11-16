@@ -49,6 +49,7 @@ BuildRequires:  pkgconfig(theora) >= 1.0alpha7
 BuildRequires:  pkgconfig(vpx) >= 1.8.0
 BuildRequires:	bctoolbox-static-devel
 BuildRequires:	cmake(bzrtp)
+BuildRequires:	pkgconfig(sqlite3)
 
 # mediastreamer was broken out from linphone which provided lib[64]mediastreamer4-3.8.1-1.mga5
 Epoch: 1
