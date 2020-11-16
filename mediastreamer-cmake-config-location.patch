@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0c45a13..96c8303 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -680,7 +680,7 @@ if(ENABLE_TOOLS AND NOT ANDROID)
+ )
+ 
+ include(CMakePackageConfigHelpers)
+-set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_DATADIR}/Mediastreamer2/cmake")
++set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_LIBDIR}/cmake/${EXPORT_TARGETS_NAME}")
+ 
+ write_basic_package_version_file(
+ 	"${CMAKE_CURRENT_BINARY_DIR}/Mediastreamer2ConfigVersion.cmake"

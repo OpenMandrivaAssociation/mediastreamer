@@ -1,0 +1,44 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5e7cebc..3fc90eb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -679,6 +679,16 @@ if(ENABLE_TOOLS AND NOT ANDROID)
+ 	add_subdirectory(tools)
+ endif()
+ 
++set(prefix ${CMAKE_INSTALL_PREFIX})
++set(exec_prefix ${prefix}/libexec)
++set(libdir ${prefix}/lib${LIB_SUFFIX})
++set(includedir ${prefix}/include)
++
++configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mediastreamer.pc.in"
++        "${CMAKE_CURRENT_BINARY_DIR}/mediastreamer.pc"
++        @ONLY
++)
++
+ include(CMakePackageConfigHelpers)
+ set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_DATADIR}/Mediastreamer2/cmake")
+ 
+@@ -706,6 +716,11 @@ install(FILES
+ 	DESTINATION ${CONFIG_PACKAGE_LOCATION}
+ )
+ 
++install(FILES
++	"${CMAKE_CURRENT_BINARY_DIR}/mediastreamer.pc"
++	DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
++)
++
+ if (ENABLE_PACKAGE_SOURCE)
+ 	add_subdirectory(build)
+ endif()
+diff --git a/mediastreamer.pc.in b/mediastreamer.pc.in
+index 3870fda..480bb16 100644
+--- a/mediastreamer.pc.in
++++ b/mediastreamer.pc.in
+@@ -7,5 +7,5 @@ Name: mediastreamer
+ Description: A mediastreaming library for telephony applications
+ Requires: ortp bctoolbox
+ Version: @MEDIASTREAMER_VERSION@
+-Libs: -L@libdir@ -lmediastreamer_base -lmediastreamer_voip
++Libs: -L@libdir@ -lmediastreamer
+ Cflags: -I@includedir@ @MS_PUBLIC_CFLAGS@
