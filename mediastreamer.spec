@@ -3,7 +3,7 @@
 %define develname %mklibname -d %{name}
 
 %global optflags %{optflags} -fcommon -Wno-implicit-function-declaration
-%global build_ldflags %{build_ldflags} -lXext
+%global build_ldflags %{build_ldflags} -lXext -pthread -lpthread
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
