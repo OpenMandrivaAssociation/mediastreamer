@@ -7,7 +7,7 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	4.4.21
+Version:	4.4.24
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
@@ -51,6 +51,7 @@ BuildRequires:  pkgconfig(theora) >= 1.0alpha7
 BuildRequires:  pkgconfig(vpx) >= 1.8.0
 BuildRequires:	bctoolbox-static-devel
 BuildRequires:	cmake(bzrtp)
+BuildRequires:	cmake(ZXing)
 BuildRequires:	pkgconfig(sqlite3)
 
 # mediastreamer was broken out from linphone which provided lib[64]mediastreamer4-3.8.1-1.mga5
@@ -61,6 +62,14 @@ mediastreamer is a GPL licensed library to make audio and video
 real-time streaming and processing. Written in pure C, it is based
 upon the oRTP library.
 
+%files
+%{_bindir}/mediastream
+%{_bindir}/mkvstream
+%dir %{_datadir}/images/
+%{_datadir}/images/nowebcamCIF.jpg
+
+#---------------------------------------------------------------------------
+
 %package -n	%{libname}
 Summary:	Audio/video real-time streaming library
 Group:		System/Libraries
@@ -70,6 +79,11 @@ Group:		System/Libraries
 mediastreamer is a GPL licensed library to make audio and video
 real-time streaming and processing. Written in pure C, it is based
 upon the oRTP library.
+
+%files -n %{libname}
+%{_libdir}/libmediastreamer.so.%{major}*
+
+#---------------------------------------------------------------------------
 
 %package -n	%{develname}
 Summary:	Headers, libraries and docs for the mediastreamer2 library
@@ -86,6 +100,15 @@ upon the ortp library.
 This package contains header files and development libraries needed to
 develop programs using the mediastreamer library.
 
+%files -n %{develname}
+%{_includedir}/mediastreamer2/
+%{_libdir}/libmediastreamer.so
+%{_libdir}/pkgconfig/mediastreamer.pc
+%dir %{_libdir}/cmake/Mediastreamer2
+%{_libdir}/cmake/Mediastreamer2/*.cmake
+
+#---------------------------------------------------------------------------
+
 %prep
 %autosetup -p1 -n mediastreamer2-%{version}
 # fix version
@@ -94,6 +117,7 @@ sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' C
 %cmake \
 	-DENABLE_STATIC:BOOL=NO \
 	-DENABLE_STRICT:BOOL=NO \
+	-DENABLE_ZRTP:BOOL=YES \
 	-DENABLE_DOC=NO \
 	-DENABLE_UNIT_TESTS=NO \
 	-DOpenGL_GL_PREFERENCE=GLVND \
@@ -101,26 +125,9 @@ sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' C
 	-G Ninja
 
 %build
-
 %ninja_build -C build
 
 %install
 %ninja_install -C build
 
 #find_lang %{name}
-
-%files
-%{_bindir}/mediastream
-%{_bindir}/mkvstream
-%dir %{_datadir}/images/
-%{_datadir}/images/nowebcamCIF.jpg
-
-%files -n %{libname}
-%{_libdir}/libmediastreamer.so.%{major}*
-
-%files -n %{develname}
-%{_includedir}/mediastreamer2/
-%{_libdir}/libmediastreamer.so
-%{_libdir}/pkgconfig/mediastreamer.pc
-%dir %{_libdir}/cmake/Mediastreamer2
-%{_libdir}/cmake/Mediastreamer2/*.cmake
