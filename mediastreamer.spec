@@ -11,8 +11,7 @@ Version:	4.4.24
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
-URL:		https://www.linphone.org/technical-corner/mediastreamer2
-# https://gitlab.linphone.org/BC/public/mediastreamer2
+URL:		https://linphone.org/
 Source0:	https://gitlab.linphone.org/BC/public/mediastreamer2/-/archive/%{version}/mediastreamer2-%{version}.tar.bz2
 Patch0:	mediastreamer-linkage_fix.patch
 Patch1:	mediastreamer-cmake-install-pkgconfig-pc-file.patch
@@ -114,6 +113,7 @@ develop programs using the mediastreamer library.
 # fix version
 sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' CMakeLists.txt
 
+%build
 %cmake \
 	-DENABLE_STATIC:BOOL=NO \
 	-DENABLE_STRICT:BOOL=NO \
@@ -124,8 +124,7 @@ sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' C
 	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
 	-G Ninja
 
-%build
-%ninja_build -C build
+%ninja_build
 
 %install
 %ninja_install -C build
