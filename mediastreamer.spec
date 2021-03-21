@@ -7,7 +7,7 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	4.4.24
+Version:	4.4.35
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
