@@ -16,11 +16,12 @@ index affbc06..19ee247 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
 @@ -533,7 +533,7 @@ if(ENABLE_SHARED)
- 		$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
- 		PRIVATE ${MEDIASTREAMER2_INCLUDE_DIRS}
- 	)
+ 			$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/>
+ 			PRIVATE ${MEDIASTREAMER2_INCLUDE_DIRS}
+ 		)
 -        target_link_libraries(mediastreamer PRIVATE ${LINK_LIBS})
 +        target_link_libraries(mediastreamer PRIVATE ${LINK_LIBS} pthread)
  	if(IOS)
  		target_link_libraries(mediastreamer INTERFACE "-framework Foundation" "-framework AVFoundation")
  	endif()
+

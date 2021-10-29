@@ -7,15 +7,16 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	4.4.35
+Version:	5.0.44
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
 Source0:	https://gitlab.linphone.org/BC/public/mediastreamer2/-/archive/%{version}/mediastreamer2-%{version}.tar.bz2
-Patch0:	mediastreamer-linkage_fix.patch
-Patch1:	mediastreamer-cmake-install-pkgconfig-pc-file.patch
-Patch2:	mediastreamer-cmake-config-location.patch
+Patch0:		mediastreamer-linkage_fix.patch
+Patch1:		mediastreamer-cmake-install-pkgconfig-pc-file.patch
+Patch2:		mediastreamer-cmake-config-location.patch
+Patch3:		mediastreamer-cmake-fix-opengl-include.patch
 BuildRequires:  cmake
 BuildRequires:  ninja
 BuildRequires:  libtool
@@ -50,7 +51,7 @@ BuildRequires:  pkgconfig(theora) >= 1.0alpha7
 BuildRequires:  pkgconfig(vpx) >= 1.8.0
 BuildRequires:	bctoolbox-static-devel
 BuildRequires:	cmake(bzrtp)
-BuildRequires:	cmake(ZXing)
+BuildRequires:	cmake(zxing)
 BuildRequires:	pkgconfig(sqlite3)
 
 # mediastreamer was broken out from linphone which provided lib[64]mediastreamer4-3.8.1-1.mga5
@@ -81,6 +82,7 @@ upon the oRTP library.
 
 %files -n %{libname}
 %{_libdir}/libmediastreamer.so.%{major}*
+%{_libdir}/mediastreamer/plugins
 
 #---------------------------------------------------------------------------
 
@@ -110,8 +112,14 @@ develop programs using the mediastreamer library.
 
 %prep
 %autosetup -p1 -n mediastreamer2-%{version}
+#use system OpenGL headers
+rm -fr include/OpenGL
+
 # fix version
 sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' CMakeLists.txt
+
+# fix xzing include path
+sed -i -e "s|zxing/|ZXing/|g" cmake/FindZxing.cmake
 
 %build
 %cmake \
@@ -121,6 +129,7 @@ sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' C
 	-DENABLE_DOC=NO \
 	-DENABLE_UNIT_TESTS=NO \
 	-DOpenGL_GL_PREFERENCE=GLVND \
+	-DENABLE_QT_GL:BOOL=YES \
 	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
 	-G Ninja
 
