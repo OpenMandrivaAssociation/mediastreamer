@@ -25,6 +25,7 @@ BuildRequires:	gettext
 BuildRequires:	gettext-devel
 BuildRequires:	gsm-devel
 BuildRequires:	intltool
+BuildRequires:	libjpeg-devel
 BuildRequires:	pcap-devel
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(x11)
@@ -43,6 +44,7 @@ BuildRequires:	pkgconfig(libupnp) >= 1.6
 BuildRequires:	pkgconfig(vpx)
 BuildRequires:	pkgconfig(opus) >= 0.9.0
 BuildRequires:	pkgconfig(ortp) >= 0.24.0
+BuildRequires:	pkgconfig(Qt5Quick)
 BuildRequires:	pkgconfig(spandsp) >= 0.0.6
 BuildRequires:	pkgconfig(speex) >= 1.1.6
 BuildRequires:	pkgconfig(speexdsp)
