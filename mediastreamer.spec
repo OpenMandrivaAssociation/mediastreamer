@@ -31,7 +31,6 @@ BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xv)
-BuildRequires:	vim-common
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(dri)
@@ -55,6 +54,8 @@ BuildRequires:	bctoolbox-static-devel
 BuildRequires:	cmake(bzrtp)
 BuildRequires:	cmake(zxing)
 BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:  qmake5
+BuildRequires:	vim-common
 
 %description
 mediastreamer is a GPL licensed library to make audio and video
