@@ -17,45 +17,41 @@ Patch0:		mediastreamer-linkage_fix.patch
 Patch1:		mediastreamer-cmake-install-pkgconfig-pc-file.patch
 Patch2:		mediastreamer-cmake-config-location.patch
 Patch3:		mediastreamer-cmake-fix-opengl-include.patch
-BuildRequires:  cmake
-BuildRequires:  ninja
-BuildRequires:  libtool
-BuildRequires:  ffmpeg-devel
-BuildRequires:  gettext
-BuildRequires:  gettext-devel
-BuildRequires:  gsm-devel
-BuildRequires:  intltool
-BuildRequires:  pcap-devel
-BuildRequires:  pkgconfig(libv4l2)
-BuildRequires:  pkgconfig(x11)
-BuildRequires:  pkgconfig(xext)
-BuildRequires:  pkgconfig(xv)
-BuildRequires:  vim-common
-BuildRequires:  pkgconfig(alsa)
+BuildRequires:	cmake
+BuildRequires:	ninja
+BuildRequires:	libtool
+BuildRequires:	ffmpeg-devel
+BuildRequires:	gettext
+BuildRequires:	gettext-devel
+BuildRequires:	gsm-devel
+BuildRequires:	intltool
+BuildRequires:	pcap-devel
+BuildRequires:	pkgconfig(libv4l2)
+BuildRequires:	pkgconfig(x11)
+BuildRequires:	pkgconfig(xext)
+BuildRequires:	pkgconfig(xv)
+BuildRequires:	vim-common
+BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(dri)
 BuildRequires:	pkgconfig(libglvnd)
-BuildRequires:  pkgconfig(glew) >= 1.5
-BuildRequires:  pkgconfig(glu)
-BuildRequires:  pkgconfig(libpulse) >= 0.9.21
-BuildRequires:  pkgconfig(libsrtp2)
-BuildRequires:  pkgconfig(libupnp) >= 1.6
-#BuildRequires:  pkgconfig(libupnp) < 1.7
-BuildRequires:  pkgconfig(vpx)
-BuildRequires:  pkgconfig(opus) >= 0.9.0
-BuildRequires:  pkgconfig(ortp) >= 0.24.0
-BuildRequires:  pkgconfig(spandsp) >= 0.0.6
-BuildRequires:  pkgconfig(speex) >= 1.1.6
-BuildRequires:  pkgconfig(speexdsp)
-BuildRequires:  pkgconfig(theora) >= 1.0alpha7
-BuildRequires:  pkgconfig(vpx) >= 1.8.0
+BuildRequires:	pkgconfig(glew) >= 1.5
+BuildRequires:	pkgconfig(glu)
+BuildRequires:	pkgconfig(libpulse) >= 0.9.21
+BuildRequires:	pkgconfig(libsrtp2)
+BuildRequires:	pkgconfig(libupnp) >= 1.6
+BuildRequires:	pkgconfig(vpx)
+BuildRequires:	pkgconfig(opus) >= 0.9.0
+BuildRequires:	pkgconfig(ortp) >= 0.24.0
+BuildRequires:	pkgconfig(spandsp) >= 0.0.6
+BuildRequires:	pkgconfig(speex) >= 1.1.6
+BuildRequires:	pkgconfig(speexdsp)
+BuildRequires:	pkgconfig(theora) >= 1.0alpha7
+BuildRequires:	pkgconfig(vpx) >= 1.8.0
 BuildRequires:	bctoolbox-static-devel
 BuildRequires:	cmake(bzrtp)
 BuildRequires:	cmake(zxing)
 BuildRequires:	pkgconfig(sqlite3)
-
-# mediastreamer was broken out from linphone which provided lib[64]mediastreamer4-3.8.1-1.mga5
-Epoch: 1
 
 %description
 mediastreamer is a GPL licensed library to make audio and video
