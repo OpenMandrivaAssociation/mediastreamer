@@ -25,7 +25,7 @@ BuildRequires:	gettext
 BuildRequires:	gettext-devel
 BuildRequires:	gsm-devel
 BuildRequires:	intltool
-BuildRequires:	libjpeg-devel
+BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pcap-devel
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(x11)
