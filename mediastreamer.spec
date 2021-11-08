@@ -22,38 +22,38 @@ BuildRequires:	ninja
 BuildRequires:	libtool
 BuildRequires:	ffmpeg-devel
 BuildRequires:	gettext
+BuildRequires:	bctoolbox-static-devel
+BuildRequires:	boost-devel
+BuildRequires:	cmake(bzrtp)
+BuildRequires:	cmake(ortp) >= 0.24.0
+BuildRequires:	cmake(pulseaudio)
+BuildRequires:	cmake(Qt5Core)
+BuildRequires:	cmake(Qt5Quick)
+BuildRequires:	cmake(zxing)
 BuildRequires:	gettext-devel
 BuildRequires:	gsm-devel
 BuildRequires:	intltool
-BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pcap-devel
+BuildRequires:	pkgconfig(alsa)
+BuildRequires:	pkgconfig(dri)
+BuildRequires:	pkgconfig(gl)
+BuildRequires:	pkgconfig(glew)
+BuildRequires:	pkgconfig(glu)
+BuildRequires:	pkgconfig(libglvnd)
+BuildRequires:	pkgconfig(libjpeg)
+BuildRequires:	pkgconfig(libsrtp2)
+BuildRequires:	pkgconfig(libupnp)
 BuildRequires:	pkgconfig(libv4l2)
+BuildRequires:	pkgconfig(opus)
+BuildRequires:	pkgconfig(spandsp)
+BuildRequires:	pkgconfig(speex)
+BuildRequires:	pkgconfig(speexdsp)
+BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:	pkgconfig(theora)
 BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xv)
-BuildRequires:	pkgconfig(alsa)
-BuildRequires:	pkgconfig(gl)
-BuildRequires:	pkgconfig(dri)
-BuildRequires:	pkgconfig(libglvnd)
-BuildRequires:	pkgconfig(glew) >= 1.5
-BuildRequires:	pkgconfig(glu)
-BuildRequires:	pkgconfig(libpulse) >= 0.9.21
-BuildRequires:	pkgconfig(libsrtp2)
-BuildRequires:	pkgconfig(libupnp) >= 1.6
 BuildRequires:	pkgconfig(vpx)
-BuildRequires:	pkgconfig(opus) >= 0.9.0
-BuildRequires:	pkgconfig(ortp) >= 0.24.0
-BuildRequires:	pkgconfig(Qt5Core)
-BuildRequires:	pkgconfig(Qt5Quick)
-BuildRequires:	pkgconfig(spandsp) >= 0.0.6
-BuildRequires:	pkgconfig(speex) >= 1.1.6
-BuildRequires:	pkgconfig(speexdsp)
-BuildRequires:	pkgconfig(theora) >= 1.0alpha7
-BuildRequires:	pkgconfig(vpx) >= 1.8.0
-BuildRequires:	bctoolbox-static-devel
-BuildRequires:	cmake(bzrtp)
-BuildRequires:	cmake(zxing)
-BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:  qmake5
 BuildRequires:	vim-common
 
