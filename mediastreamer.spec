@@ -57,6 +57,9 @@ BuildRequires:	pkgconfig(sqlite3)
 BuildRequires:  qmake5
 BuildRequires:	vim-common
 
+# mediastreamer was broken out from linphone which provided lib[64]mediastreamer4-3.8.1-1.mga5
+Epoch: 1
+
 %description
 mediastreamer is a GPL licensed library to make audio and video
 real-time streaming and processing. Written in pure C, it is based
