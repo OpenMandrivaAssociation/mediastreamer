@@ -7,7 +7,7 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	5.0.68
+Version:	5.1.45
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
@@ -44,6 +44,7 @@ BuildRequires:	pkgconfig(libglvnd)
 BuildRequires:	pkgconfig(libjpeg)
 BuildRequires:	pkgconfig(libsrtp2)
 BuildRequires:	pkgconfig(libupnp)
+BuildRequires:	pkgconfig(libyuv)
 BuildRequires:	pkgconfig(libv4l2)
 BuildRequires:	pkgconfig(opus)
 BuildRequires:	pkgconfig(spandsp)
