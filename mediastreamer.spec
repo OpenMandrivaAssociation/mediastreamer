@@ -7,7 +7,7 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	5.1.45
+Version:	5.1.61
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
