@@ -5,8 +5,12 @@
 %global optflags %{optflags} -fcommon -Wno-implicit-function-declaration
 %global build_ldflags %{build_ldflags} -lXext -pthread -lpthread
 
-%bcond_without  qt_gl
-%bcond_without  zrtp
+%bcond_with	doc
+%bcond_without	qtgl
+%bcond_with	static
+%bcond_without	strict
+%bcond_with	tests
+%bcond_without	zrtp
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
@@ -128,13 +132,13 @@ sed -i -e "s|zxing/|ZXing/|g" cmake/FindZxing.cmake
 
 %build
 %cmake \
-	-DENABLE_STATIC:BOOL=NO \
-	-DENABLE_STRICT:BOOL=YES \
+	-DENABLE_STRICT:BOOL=%{?with_static:ON}%{?!with_static:OFF} \
+	-DENABLE_STATIC:BOOL=%{?with_static:ON}%{?!with_static:OFF} \
 	-DENABLE_ZRTP:BOOL=%{?with_zrtp:ON}%{!?with_zrtp:OFF} \
-	-DENABLE_DOC=NO \
-	-DENABLE_UNIT_TESTS=NO \
+	-DENABLE_DOC=%{?with_doc:ON}%{?!with_doc:OFF} \
+	-DENABLE_UNIT_TESTS=%{?with_tests:ON}%{?!with_tests:OFF} \
 	-DOpenGL_GL_PREFERENCE=GLVND \
-	-DENABLE_QT_GL:BOOL=%{?with_qt_gl:ON}%{!?with_qt_gl:OFF} \
+	-DENABLE_QT_GL:BOOL=%{?with_qtgl:ON}%{!?with_qtgl:OFF} \
 	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
 	-G Ninja
 
