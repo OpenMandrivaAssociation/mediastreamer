@@ -1,13 +1,16 @@
 %define major 11
-%define libname %mklibname %{name} %{major}
-%define develname %mklibname -d %{name}
+%define libname %mklibname %{name}
+%define devname %mklibname %{name} -d
 
 %global optflags %{optflags} -fcommon -Wno-implicit-function-declaration
 %global build_ldflags %{build_ldflags} -lXext -pthread -lpthread
 
+%bcond_without  qt_gl
+%bcond_without  zrtp
+
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	5.1.61
+Version:	5.1.67
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
@@ -88,14 +91,14 @@ upon the oRTP library.
 
 #---------------------------------------------------------------------------
 
-%package -n	%{develname}
+%package -n	%{devname}
 Summary:	Headers, libraries and docs for the mediastreamer2 library
 Group:		Development/C
 Requires:	%{libname} => %{version}
 # mediastreamer was broken out from linphone
 Conflicts:	linphone-devel < 3.8.5-1
 
-%description -n	%{develname}
+%description -n	%{devname}
 mediastreamer is a GPL licensed library to make audio and video
 real-time streaming and processing. Written in pure C, it is based
 upon the ortp library.
@@ -103,7 +106,7 @@ upon the ortp library.
 This package contains header files and development libraries needed to
 develop programs using the mediastreamer library.
 
-%files -n %{develname}
+%files -n %{devname}
 %{_includedir}/mediastreamer2/
 %{_libdir}/libmediastreamer.so
 %{_libdir}/pkgconfig/mediastreamer.pc
@@ -126,12 +129,12 @@ sed -i -e "s|zxing/|ZXing/|g" cmake/FindZxing.cmake
 %build
 %cmake \
 	-DENABLE_STATIC:BOOL=NO \
-	-DENABLE_STRICT:BOOL=NO \
-	-DENABLE_ZRTP:BOOL=YES \
+	-DENABLE_STRICT:BOOL=YES \
+	-DENABLE_ZRTP:BOOL=%{?with_zrtp:ON}%{!?with_zrtp:OFF} \
 	-DENABLE_DOC=NO \
 	-DENABLE_UNIT_TESTS=NO \
 	-DOpenGL_GL_PREFERENCE=GLVND \
-	-DENABLE_QT_GL:BOOL=YES \
+	-DENABLE_QT_GL:BOOL=%{?with_qt_gl:ON}%{!?with_qt_gl:OFF} \
 	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
 	-G Ninja
 
