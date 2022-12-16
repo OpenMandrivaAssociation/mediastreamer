@@ -14,7 +14,7 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	5.1.72
+Version:	5.2.0
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
@@ -25,6 +25,7 @@ Patch1:		mediastreamer-cmake-install-pkgconfig-pc-file.patch
 Patch2:		mediastreamer-cmake-config-location.patch
 Patch3:		mediastreamer-cmake-fix-opengl-include.patch
 Patch4:		mediastreamer2-5.0.66-ffmpeg-5.0.patch
+Patch5:		mediastreamer2-5.2.0-fix_zxing.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	libtool
@@ -128,7 +129,7 @@ rm -fr include/OpenGL
 sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' CMakeLists.txt
 
 # fix xzing include path
-sed -i -e "s|zxing/|ZXing/|g" cmake/FindZxing.cmake
+sed -i -e "s|zxing/|ZXing/|g" cmake/FindZXing.cmake
 
 %build
 %cmake \

@@ -1,0 +1,20 @@
+--- a/src/videofilters/zxing_qrcode.cpp
++++ b/src/videofilters/zxing_qrcode.cpp
+@@ -92,14 +92,14 @@
+ 	if (qrc->image.data(0,0)) {
+ 		DecodeHints hints;
+ 		Result result = ReadBarcode(qrc->image, hints);
+-		if (result.error())
+-			ms_warning("[MSQRCodeReader] Cannot decode QRCode : %s", ToString(result.error()).c_str());
++		if (! result.isValid())
++			ms_warning("[MSQRCodeReader] Cannot decode QRCode : %s", result.text().c_str());
+ 		else if(result.format() == BarcodeFormat::None){
+ 		}else if(!result.isValid())
+ 			ms_warning("[MSQRCodeReader] QRCode is not valid");
+ 		else{
+ 			MSQrCodeReaderEventData data = {{0}};
+-			snprintf(data.data, sizeof(data.data), "%s", result.text().c_str());
++			snprintf(data.data, sizeof(data.data), "%s", result.text().c_str());
+ 			qrc->searchQRCode = FALSE;
+ 			ms_filter_notify(f, MS_QRCODE_READER_QRCODE_FOUND, &data);
+ 		
