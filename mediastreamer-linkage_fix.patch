@@ -21,7 +21,7 @@ index affbc06..19ee247 100644
  	)
 -	target_link_libraries(mediastreamer PRIVATE ${LINK_LIBS})
 +        target_link_libraries(mediastreamer PRIVATE ${LINK_LIBS} pthread)
- 	if(IOS)
- 		target_link_libraries(mediastreamer INTERFACE "-framework Foundation" "-framework AVFoundation")
+ 	if(bzrtp_FOUND)
+ 		target_link_libraries(mediastreamer PRIVATE bzrtp)
  	endif()
 

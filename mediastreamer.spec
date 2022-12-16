@@ -133,8 +133,8 @@ sed -i -e "s|zxing/|ZXing/|g" cmake/FindZXing.cmake
 
 %build
 %cmake \
-	-DENABLE_STRICT:BOOL=%{?with_static:ON}%{?!with_static:OFF} \
 	-DENABLE_STATIC:BOOL=%{?with_static:ON}%{?!with_static:OFF} \
+	-DENABLE_STRICT:BOOL=%{?with_strict:ON}%{?!with_strict:OFF} \
 	-DENABLE_ZRTP:BOOL=%{?with_zrtp:ON}%{!?with_zrtp:OFF} \
 	-DENABLE_DOC=%{?with_doc:ON}%{?!with_doc:OFF} \
 	-DENABLE_UNIT_TESTS=%{?with_tests:ON}%{?!with_tests:OFF} \
