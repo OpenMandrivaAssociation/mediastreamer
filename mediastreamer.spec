@@ -8,7 +8,7 @@
 %bcond_with	doc
 %bcond_without	qtgl
 %bcond_with	static
-%bcond_without	strict
+%bcond_with	strict
 %bcond_with	tests
 %bcond_without	zrtp
 
