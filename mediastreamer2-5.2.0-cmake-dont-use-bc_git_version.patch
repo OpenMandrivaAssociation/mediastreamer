@@ -1,0 +1,16 @@
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -48,7 +48,12 @@
+ 	list(APPEND BASE_SOURCE_FILES_C utils/msjava.c)
+ endif()
+ 
+-bc_git_version(ms2 ${PROJECT_VERSION})
++add_custom_target(ms2-git-version
++			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
++			COMMAND echo "#define MS2_GIT_VERSION \"0000000\"" > "gitversion.h"
++			BYPRODUCTS "gitversion.h"
++			VERBATIM
++		)
+ 
+ add_definitions(
+ 	-D_TRUE_TIME

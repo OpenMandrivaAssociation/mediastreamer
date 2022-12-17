@@ -24,8 +24,9 @@ Patch0:		mediastreamer-linkage_fix.patch
 Patch1:		mediastreamer-cmake-install-pkgconfig-pc-file.patch
 Patch2:		mediastreamer-cmake-config-location.patch
 Patch3:		mediastreamer-cmake-fix-opengl-include.patch
-Patch4:		mediastreamer2-5.0.66-ffmpeg-5.0.patch
-Patch5:		mediastreamer2-5.2.0-fix_zxing.patch
+Patch4:		mediastreamer2-5.2.0-cmake-dont-use-bc_git_version.patch
+Patch5:		mediastreamer2-5.0.66-ffmpeg-5.0.patch
+Patch6:		mediastreamer2-5.2.0-fix_zxing.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	libtool
@@ -83,7 +84,6 @@ upon the oRTP library.
 %package -n	%{libname}
 Summary:	Audio/video real-time streaming library
 Group:		System/Libraries
-#Conflicts:	%{mklibname mediastreamer 3}
 
 %description -n	%{libname}
 mediastreamer is a GPL licensed library to make audio and video
