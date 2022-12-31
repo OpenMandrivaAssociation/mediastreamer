@@ -15,7 +15,7 @@
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
 Version:	5.2.6
-Release:	1
+Release:	2
 License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
@@ -34,6 +34,7 @@ BuildRequires:	ffmpeg-devel
 BuildRequires:	gettext
 BuildRequires:	bctoolbox-static-devel
 BuildRequires:	boost-devel
+BuildRequires:	cmake(bcmatroska2)
 BuildRequires:	cmake(bzrtp)
 BuildRequires:	cmake(ortp) >= 0.24.0
 BuildRequires:	cmake(pulseaudio)
