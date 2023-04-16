@@ -15,7 +15,7 @@
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
 Version:	5.2.37
-Release:	2
+Release:	3
 License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
