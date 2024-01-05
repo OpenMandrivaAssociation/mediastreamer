@@ -1,10 +1,9 @@
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -617,6 +617,8 @@ if(BUILD_SHARED_LIBS)
+@@ -617,6 +617,7 @@ if(BUILD_SHARED_LIBS)
  		set_target_properties(mediastreamer2 PROPERTIES SOVERSION ${MEDIASTREAMER_SO_VERSION})
  	else()
  
-+		set_target_properties(mediastreamer2 PROPERTIES VERSION ${MEDIASTREAMER_VERSION})
 +		set_target_properties(mediastreamer2 PROPERTIES SOVERSION ${MEDIASTREAMER_SO_VERSION})
  
  		#Workaround for the Debian 11 issue with conflict between libc and libtirpc

@@ -46,8 +46,9 @@ BuildRequires:	cmake(bcmatroska2)
 BuildRequires:	cmake(bzrtp)
 BuildRequires:	cmake(ortp) >= 0.24.0
 BuildRequires:	cmake(pulseaudio)
-BuildRequires:	cmake(Qt5Core)
-BuildRequires:	cmake(Qt5Quick)
+BuildRequires:	cmake(Qt6Core)
+BuildRequires:	pkgconfig(Qt6Gui)
+BuildRequires:	cmake(Qt6Quick)
 BuildRequires:	cmake(zxing)
 BuildRequires:	gettext-devel
 BuildRequires:	gsm-devel
