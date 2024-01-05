@@ -154,8 +154,4 @@ export CXXFLAGS="%{optflags} -I%{_includedir}/bcmatroska2/"
 %install
 %ninja_install -C build
 
-# fix lib name
-#mv %{buildroot}/%{_libdir}/libmediastreamer2.so %{buildroot}/%{_libdir}/libmediastreamer2.so.%{major}
-#ln -s  libmediastreamer2.so.%{major} %{buildroot}/%{_libdir}/libmediastreamer2.so
-
 #find_lang %{name}
