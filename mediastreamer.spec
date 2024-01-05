@@ -2,8 +2,17 @@
 %define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
 
-%global optflags %{optflags} -fcommon -Wno-implicit-function-declaration
-%global build_ldflags %{build_ldflags} -lXext -pthread -lpthread
+# exclude unwanter cmake requires
+%global __requires_exclude cmake\\(arts\\)|cmake\\(Arts\\) \
+	|cmake\\(bcg729\\)|cmake\\(BCG729\\) \
+	|cmake\\(bv16\\)|cmake\\(BV16\\) \
+	|cmake\\(camapi\\)|cmake\\(CamApi\\) \
+	|cmake\\(pcap\\)|cmake\\(PCAP\\) \
+	|cmake\\(portaudio\\)|cmake\\(PortAudio\\) \
+	|cmake\\(qnxaudiomanager\\)|cmake\\(QnxAudioManager\\) \
+	|cmake\\(qsa\\)|cmake\\(QSA\\) \
+	|cmake\\(screen\\)|cmake\\(Screen\\) \
+	|cmake\\(spandsp\\)|cmake\\(SpanDSP\\)
 
 %bcond_with	doc
 %bcond_without	qtgl
@@ -20,7 +29,6 @@ License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
 Source0:	https://gitlab.linphone.org/BC/public/mediastreamer2/-/archive/%{version}/mediastreamer2-%{version}.tar.bz2
-#Patch0:		mediastreamer-linkage_fix.patch
 Patch0:		mediastreamer2-5.3.6-soname.patch
 Patch1:		mediastreamer-cmake-install-pkgconfig-pc-file.patch
 Patch2:		mediastreamer2-5.3.6-cmake-config-location.patch
@@ -154,4 +162,3 @@ export CXXFLAGS="%{optflags} -I%{_includedir}/bcmatroska2/"
 %install
 %ninja_install -C build
 
-#find_lang %{name}
