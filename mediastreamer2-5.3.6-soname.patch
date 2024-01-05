@@ -1,0 +1,11 @@
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -617,6 +617,8 @@ if(BUILD_SHARED_LIBS)
+ 		set_target_properties(mediastreamer2 PROPERTIES SOVERSION ${MEDIASTREAMER_SO_VERSION})
+ 	else()
+ 
++		set_target_properties(mediastreamer2 PROPERTIES VERSION ${MEDIASTREAMER_VERSION})
++		set_target_properties(mediastreamer2 PROPERTIES SOVERSION ${MEDIASTREAMER_SO_VERSION})
+ 
+ 		#Workaround for the Debian 11 issue with conflict between libc and libtirpc
+ 		#/usr/bin/ld: /lib/x86_64-linux-gnu/libtirpc.so.3: warning: common of `rpc_createerr@@GLIBC_2.2.5' overridden by definition from /lib/x86_64-linux-gnu/libc.so.6

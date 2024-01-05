@@ -1,19 +1,18 @@
-diff -up mediastreamer2-5.0.66/src/utils/ffmpeg-priv.c.omv~ mediastreamer2-5.0.66/src/utils/ffmpeg-priv.c
---- mediastreamer2-5.0.66/src/utils/ffmpeg-priv.c.omv~	2022-01-22 18:04:13.828766304 +0100
-+++ mediastreamer2-5.0.66/src/utils/ffmpeg-priv.c	2022-01-22 18:10:35.546776805 +0100
+--- a/src/utils/ffmpeg-priv.c
++++ b/src/utils/ffmpeg-priv.c
 @@ -21,7 +21,7 @@
- #include "ffmpeg-priv.h"
  
+ #include "ffmpeg-priv.h"
  
 -#ifndef HAVE_FUN_avcodec_encode_video2
 +#if 0 //ndef HAVE_FUN_avcodec_encode_video2
- int avcodec_encode_video2 (AVCodecContext *avctx, AVPacket *avpkt, const AVFrame *frame, int *got_packet_ptr) {
- 	int error=avcodec_encode_video(avctx, avpkt->data, avpkt->size,frame);
- 	if (error<0){
+ int avcodec_encode_video2(AVCodecContext *avctx, AVPacket *avpkt, const AVFrame *frame, int *got_packet_ptr) {
+ 	int error = avcodec_encode_video(avctx, avpkt->data, avpkt->size, frame);
+ 	if (error < 0) {
 @@ -40,13 +40,17 @@ int avcodec_encode_video2 (AVCodecContex
  
  #ifndef HAVE_FUN_avcodec_get_context_defaults3 /**/
- int avcodec_get_context_defaults3 (AVCodecContext *s, AVCodec *codec) {
+ int avcodec_get_context_defaults3(AVCodecContext *s, AVCodec *codec) {
 +#if LIBAVCODEC_VERSION_MAJOR < 59
  	avcodec_get_context_defaults(s);
 +#endif
@@ -21,57 +20,55 @@ diff -up mediastreamer2-5.0.66/src/utils/ffmpeg-priv.c.omv~ mediastreamer2-5.0.6
  }
  
 +#if LIBAVCODEC_VERSION_MAJOR < 59
- AVCodecContext *avcodec_alloc_context3(AVCodec *codec){
+ AVCodecContext *avcodec_alloc_context3(AVCodec *codec) {
  	return avcodec_alloc_context();
  }
 +#endif
  
  #endif
  
-diff -up mediastreamer2-5.0.66/src/utils/ffmpeg-priv.h.omv~ mediastreamer2-5.0.66/src/utils/ffmpeg-priv.h
---- mediastreamer2-5.0.66/src/utils/ffmpeg-priv.h.omv~	2022-01-22 15:50:17.384618144 +0100
-+++ mediastreamer2-5.0.66/src/utils/ffmpeg-priv.h	2022-01-22 15:52:41.082908875 +0100
+--- a/src/utils/ffmpeg-priv.h
++++ b/src/utils/ffmpeg-priv.h
 @@ -121,8 +121,10 @@ int avcodec_encode_video2 (AVCodecContex
  
  #ifndef HAVE_FUN_avcodec_get_context_defaults3 /**/
- int avcodec_get_context_defaults3 (AVCodecContext *s, AVCodec *codec);
+ int avcodec_get_context_defaults3(AVCodecContext *s, AVCodec *codec);
 +#if LIBAVCODEC_VERSION_MAJOR < 59
  AVCodecContext *avcodec_alloc_context3(AVCodec *codec);
  #endif
 +#endif
  
  #ifndef HAVE_FUN_avcodec_open2 /**/
- int avcodec_open2 (AVCodecContext *avctx, AVCodec *codec, AVDictionary **options);
+ int avcodec_open2(AVCodecContext *avctx, AVCodec *codec, AVDictionary **options);
 @@ -173,5 +175,4 @@ void av_frame_unref (AVFrame *frame);
  #ifdef _MSC_VER
  #pragma warning(pop)
  #endif
 -
  #endif /* FFMPEG_PRIV_H */
-diff -up mediastreamer2-5.0.66/src/videofilters/h264dec.cpp.omv~ mediastreamer2-5.0.66/src/videofilters/h264dec.cpp
---- mediastreamer2-5.0.66/src/videofilters/h264dec.cpp.omv~	2022-01-22 15:51:09.157728192 +0100
-+++ mediastreamer2-5.0.66/src/videofilters/h264dec.cpp	2022-01-22 17:47:44.517795632 +0100
+--- a/src/videofilters/h264dec.cpp
++++ b/src/videofilters/h264dec.cpp
 @@ -66,13 +66,15 @@ typedef struct _DecData{
- static void ffmpeg_init(void){
- 	static bool_t done=FALSE;
- 	if (!done){
+ static void ffmpeg_init(void) {
+ 	static bool_t done = FALSE;
+ 	if (!done) {
 +#if LIBAVCODEC_VERSION_MAJOR < 59
  		avcodec_register_all();
 +#endif
- 		done=TRUE;
+ 		done = TRUE;
  	}
  }
  
- static void dec_open(DecData *d){
+ static void dec_open(DecData *d) {
 -	AVCodec *codec;
 +	const AVCodec *codec;
  	int error;
- 	codec=avcodec_find_decoder(CODEC_ID_H264);
- 	if (codec==NULL) ms_fatal("Could not find H264 decoder in ffmpeg.");
+ 	codec = avcodec_find_decoder(CODEC_ID_H264);
+ 	if (codec == NULL) ms_fatal("Could not find H264 decoder in ffmpeg.");
 @@ -164,7 +166,11 @@ static mblk_t *get_as_yuvmsg(MSFilter *f
- 		ms_error("%s: error in sws_scale().",f->desc->name);
+ 		ms_error("%s: error in sws_scale().", f->desc->name);
  	}
- #if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(50,43,0) // backward compatibility with Debian Squeeze (6.0)
+ #if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(50, 43, 0) // backward compatibility with Debian Squeeze (6.0)
 +#if LIBAVUTIL_VERSION_MAJOR < 57
  	mblk_set_timestamp_info(yuv_msg, (uint32_t)orig->pkt_pts);
 +#else
@@ -81,11 +78,11 @@ diff -up mediastreamer2-5.0.66/src/videofilters/h264dec.cpp.omv~ mediastreamer2-
  	return yuv_msg;
  }
 @@ -325,7 +331,17 @@ static void dec_process(MSFilter *f){
- #if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(50,43,0) // backward compatibility with Debian Squeeze (6.0)
+ #if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(50, 43, 0) // backward compatibility with Debian Squeeze (6.0)
  				pkt.pts = frame_ts;
  #endif
 +#if LIBAVCODEC_VERSION_MAJOR < 59
- 				len=avcodec_decode_video2(&d->av_context,d->orig,&got_picture,&pkt);
+ 				len = avcodec_decode_video2(&d->av_context, d->orig, &got_picture, &pkt);
 +#else
 +				int ret = avcodec_receive_frame(&d->av_context, d->orig);
 +				got_picture = (ret == 0);
@@ -95,15 +92,14 @@ diff -up mediastreamer2-5.0.66/src/videofilters/h264dec.cpp.omv~ mediastreamer2-
 +				else
 +					len = pkt.size;
 +#endif
- 				if (len<=0) {
- 					ms_warning("ms_AVdecoder_process: error %i.",len);
- 					ms_filter_notify_no_arg(f,MS_VIDEO_DECODER_DECODING_ERRORS);
-diff -up mediastreamer2-5.0.66/src/videofilters/videodec.c.omv~ mediastreamer2-5.0.66/src/videofilters/videodec.c
---- mediastreamer2-5.0.66/src/videofilters/videodec.c.omv~	2022-01-22 18:01:04.246313380 +0100
-+++ mediastreamer2-5.0.66/src/videofilters/videodec.c	2022-01-22 18:03:31.666661981 +0100
+ 				if (len <= 0) {
+ 					ms_warning("ms_AVdecoder_process: error %i.", len);
+ 					ms_filter_notify_no_arg(f, MS_VIDEO_DECODER_DECODING_ERRORS);
+--- a/src/videofilters/videodec.c
++++ b/src/videofilters/videodec.c
 @@ -49,7 +49,7 @@ extern void ms_ffmpeg_check_init(void);
  
- typedef struct DecState{
+ typedef struct DecState {
  	AVCodecContext av_context;
 -	AVCodec *av_codec;
 +	const AVCodec *av_codec;
@@ -112,7 +108,7 @@ diff -up mediastreamer2-5.0.66/src/videofilters/videodec.c.omv~ mediastreamer2-5
  	YuvBuf outbuf;
 @@ -661,7 +661,11 @@ static mblk_t *get_as_yuvmsg(MSFilter *f
  #endif
- 		ms_error("%s: error in ms_sws_scale().",f->desc->name);
+ 		ms_error("%s: error in ms_sws_scale().", f->desc->name);
  	}
 +#if LIBAVCODEC_VERSION_MAJOR < 59
  	mblk_set_timestamp_info(yuv_msg, (uint32_t)orig->pkt_pts);
@@ -127,7 +123,7 @@ diff -up mediastreamer2-5.0.66/src/videofilters/videodec.c.omv~ mediastreamer2-5
  				pkt.size = remain;
  				pkt.pts = frame_ts;
 +#if LIBAVCODEC_VERSION_MAJOR < 59
- 				len=avcodec_decode_video2(&s->av_context, s->orig, &got_picture,&pkt);
+ 				len = avcodec_decode_video2(&s->av_context, s->orig, &got_picture, &pkt);
 +#else
 +				int ret = avcodec_receive_frame(&s->av_context, s->orig);
 +				got_picture = (ret == 0);
@@ -138,13 +134,12 @@ diff -up mediastreamer2-5.0.66/src/videofilters/videodec.c.omv~ mediastreamer2-5
 +					len = pkt.size;
 +#endif
  
- 				if (len<=0) {
- 					ms_warning("ms_AVdecoder_process: error %i.",len);
-diff -up mediastreamer2-5.0.66/src/videofilters/videoenc.c.omv~ mediastreamer2-5.0.66/src/videofilters/videoenc.c
---- mediastreamer2-5.0.66/src/videofilters/videoenc.c.omv~	2022-01-22 17:47:56.230833130 +0100
-+++ mediastreamer2-5.0.66/src/videofilters/videoenc.c	2022-01-22 18:13:41.544298347 +0100
+ 				if (len <= 0) {
+ 					ms_warning("ms_AVdecoder_process: error %i.", len);
+--- a/src/videofilters/videoenc.c
++++ b/src/videofilters/videoenc.c
 @@ -34,6 +34,10 @@
- #include <netinet/in.h>			/* ntohl(3) */
+ #include <netinet/in.h> /* ntohl(3) */
  #endif
  
 +#if LIBAVCODEC_VERSION_MAJOR >= 59
@@ -153,75 +148,75 @@ diff -up mediastreamer2-5.0.66/src/videofilters/videoenc.c.omv~ mediastreamer2-5
 +
  #include "rfc2429.h"
  
- 
+ #if LIBAVCODEC_VERSION_MAJOR >= 57
 @@ -128,7 +132,9 @@ void ms_ffmpeg_log_callback(void* ptr, i
  
- void ms_ffmpeg_check_init(){
- 	if(!avcodec_initialized){
+ void ms_ffmpeg_check_init() {
+ 	if (!avcodec_initialized) {
 +#if LIBAVCODEC_VERSION_MAJOR < 59
  		avcodec_register_all();
 +#endif
- 		avcodec_initialized=TRUE;
+ 		avcodec_initialized = TRUE;
  #ifdef ENABLE_LOG_FFMPEG
  		av_log_set_level(AV_LOG_WARNING);
 @@ -139,7 +145,7 @@ void ms_ffmpeg_check_init(){
  
- typedef struct EncState{
+ typedef struct EncState {
  	AVCodecContext av_context;
 -	AVCodec *av_codec;
 +	const AVCodec *av_codec;
- 	AVFrame* pict;
+ 	AVFrame *pict;
  	enum CodecID codec;
  	mblk_t *comp_buf;
 @@ -325,14 +331,20 @@ static void prepare(EncState *s){
- 
+ 	ms_message("Codec size set to w=%i/h=%i, bitrate=%i", c->width, c->height, (int)c->bit_rate);
  }
  
 +static AVDictionary **codecopts = NULL;
 +
- static void prepare_h263(EncState *s){
+ static void prepare_h263(EncState *s) {
 +#if LIBAVCODEC_VERSION_MAJOR < 59
- 	AVCodecContext *c=&s->av_context;
+ 	AVCodecContext *c = &s->av_context;
 +	c->rtp_payload_size = s->mtu/2;
 +#else
 +	av_dict_set_int(codecopts, "ps", s->mtu/2, 0);
 +#endif
  	/* we don't use the rtp_callback but use rtp_mode that forces ffmpeg to insert
  	Start Codes as much as possible in the bitstream */
- #if LIBAVCODEC_VERSION_INT < ((52<<16)+(0<<8)+0)
-         c->rtp_mode = 1;
+ #if LIBAVCODEC_VERSION_INT < ((52 << 16) + (0 << 8) + 0)
+ 	c->rtp_mode = 1;
  #endif
--	c->rtp_payload_size = s->mtu/2;
- 	if (s->profile==0){
- 		s->codec=CODEC_ID_H263;
- 	}else{
+-	c->rtp_payload_size = s->mtu / 2;
+ 	if (s->profile == 0) {
+ 		s->codec = CODEC_ID_H263;
+ 	} else {
 @@ -382,7 +394,7 @@ static void enc_preprocess(MSFilter *f){
- 		ms_error("could not find encoder for codec id %i",s->codec);
+ 		ms_error("could not find encoder for codec id %i", s->codec);
  		return;
  	}
--	error=avcodec_open2(&s->av_context, s->av_codec, NULL);
+-	error = avcodec_open2(&s->av_context, s->av_codec, NULL);
 +	error=avcodec_open2(&s->av_context, s->av_codec, codecopts);
- 	if (error!=0) {
- 		ms_error("avcodec_open() failed: %i",error);
+ 	if (error != 0) {
+ 		ms_error("avcodec_open() failed: %i", error);
  		return;
 @@ -815,7 +827,11 @@ static void process_frame(MSFilter *f, m
  	ms_yuv_buf_init_from_mblk(&yuv, inm);
  	/* convert image if necessary */
  	av_frame_unref(s->pict);
 +#if LIBAVCODEC_VERSION_MAJOR < 59
- 	avpicture_fill((AVPicture*)s->pict,yuv.planes[0],c->pix_fmt,c->width,c->height);
+ 	avpicture_fill((AVPicture *)s->pict, yuv.planes[0], c->pix_fmt, c->width, c->height);
 +#else
 +	av_image_fill_arrays(s->pict->data, s->pict->linesize, yuv.planes[0], c->pix_fmt, c->width, c->height, 1);
 +#endif
  
  	/* timestamp used by ffmpeg, unset here */
- 	s->pict->pts=AV_NOPTS_VALUE;
+ 	s->pict->pts = AV_NOPTS_VALUE;
 @@ -840,7 +856,15 @@ static void process_frame(MSFilter *f, m
  #endif
- 	packet.data=comp_buf->b_wptr;
- 	packet.size=comp_buf_sz;
+ 	packet.data = comp_buf->b_wptr;
+ 	packet.size = comp_buf_sz;
 +#if LIBAVCODEC_VERSION_MAJOR < 59
- 	error=avcodec_encode_video2(c, &packet, s->pict, &got_packet);
+ 	error = avcodec_encode_video2(c, &packet, s->pict, &got_packet);
 +#else
 +	error=avcodec_send_frame(c, s->pict);
 +	if(!error) {
@@ -230,5 +225,5 @@ diff -up mediastreamer2-5.0.66/src/videofilters/videoenc.c.omv~ mediastreamer2-5
 +	}
 +#endif
  
- 	if (error<0) ms_warning("ms_AVencoder_process: error %i.",error);
- 	else if (got_packet){
+ 	if (error < 0) ms_warning("ms_AVencoder_process: error %i.", error);
+ 	else if (got_packet) {

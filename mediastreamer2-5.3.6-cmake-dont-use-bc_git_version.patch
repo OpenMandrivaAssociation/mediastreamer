@@ -1,0 +1,25 @@
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -48,7 +48,12 @@
+ 	list(APPEND BASE_SOURCE_FILES_C utils/msjava.c)
+ endif()
+ 
+-bc_git_version(mediastreamer2 ${PROJECT_VERSION})
++add_custom_target(mediastreamer2-git-version
++			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
++			COMMAND echo "#define MS2_GIT_VERSION \"0000000\"" > "gitversion.h"
++			BYPRODUCTS "gitversion.h"
++			VERBATIM
++		)
+ 
+ add_definitions(
+ 	-D_TRUE_TIME
+@@ -552,7 +552,7 @@
+ 	enable_language(ASM)
+ endif()
+ 
+-set(MS2_DEPENDENCIES mediastreamer2-git-version mediastreamer2-basedescs-header mediastreamer2-voipdescs-header)
++set(MS2_DEPENDENCIES mediastreamer2-git-version mediastreamer2-basedescs-header mediastreamer2-voipdescs-header)
+ if(APPLE OR ANDROID OR OPENGL_FOUND OR OpenGL_GLX_FOUND OR QtAngle_FOUND OR WIN32)
+ 	list(APPEND MS2_DEPENDENCIES mediastreamer2-vertex-shader-header mediastreamer2-fragment-shader-header mediastreamer2-yuv2rgb-fs-header mediastreamer2-yuv2rgb-vs-header)
+ endif()

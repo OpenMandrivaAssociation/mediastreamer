@@ -17,10 +17,10 @@ index 5e7cebc..3fc90eb 100644
 +)
 +
  include(CMakePackageConfigHelpers)
- set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_DATADIR}/Mediastreamer2/cmake")
- 
+ set(CMAKE_MODULES_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake")
+ configure_package_config_file("cmake/${PROJECT_NAME}Config.cmake.in" "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
 @@ -706,6 +716,11 @@ install(FILES
- 	DESTINATION ${CONFIG_PACKAGE_LOCATION}
+ 	DESTINATION ${CMAKE_MODULES_INSTALL_DIR}
  )
  
 +install(FILES
@@ -28,7 +28,7 @@ index 5e7cebc..3fc90eb 100644
 +	DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
 +)
 +
- if (ENABLE_PACKAGE_SOURCE)
+ if(ENABLE_PACKAGE_SOURCE)
  	add_subdirectory(build)
  endif()
 diff --git a/mediastreamer.pc.in b/mediastreamer.pc.in

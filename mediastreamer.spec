@@ -20,19 +20,19 @@ License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
 Source0:	https://gitlab.linphone.org/BC/public/mediastreamer2/-/archive/%{version}/mediastreamer2-%{version}.tar.bz2
-Patch0:		mediastreamer-linkage_fix.patch
+#Patch0:		mediastreamer-linkage_fix.patch
+Patch0:		mediastreamer2-5.3.6-soname.patch
 Patch1:		mediastreamer-cmake-install-pkgconfig-pc-file.patch
-Patch2:		mediastreamer-cmake-config-location.patch
+Patch2:		mediastreamer2-5.3.6-cmake-config-location.patch
 Patch3:		mediastreamer-cmake-fix-opengl-include.patch
-Patch4:		mediastreamer2-5.2.0-cmake-dont-use-bc_git_version.patch
-Patch5:		mediastreamer2-5.0.66-ffmpeg-5.0.patch
-Patch6:		mediastreamer2-5.2.0-fix_zxing.patch
+Patch4:		mediastreamer2-5.3.6-cmake-dont-use-bc_git_version.patch
+Patch5:		mediastreamer2-5.0.66-ffmpeg-6.0.patch
+Patch6:		mediastreamer2-5.3.6-fix_zxing.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	libtool
 BuildRequires:	ffmpeg-devel
 BuildRequires:	gettext
-BuildRequires:	bctoolbox-static-devel
 BuildRequires:	boost-devel
 BuildRequires:	cmake(bcmatroska2)
 BuildRequires:	cmake(bzrtp)
@@ -46,6 +46,8 @@ BuildRequires:	gsm-devel
 BuildRequires:	intltool
 BuildRequires:	pcap-devel
 BuildRequires:	pkgconfig(alsa)
+BuildRequires:	pkgconfig(aom)
+BuildRequires:	pkgconfig(dav1d)
 BuildRequires:	pkgconfig(dri)
 BuildRequires:	pkgconfig(gl)
 BuildRequires:	pkgconfig(glew)
@@ -56,6 +58,7 @@ BuildRequires:	pkgconfig(libsrtp2)
 BuildRequires:	pkgconfig(libupnp)
 BuildRequires:	pkgconfig(libyuv)
 BuildRequires:	pkgconfig(libv4l2)
+BuildRequires:	pkgconfig(libmatroska)
 BuildRequires:	pkgconfig(opus)
 BuildRequires:	pkgconfig(spandsp)
 BuildRequires:	pkgconfig(speex)
@@ -75,8 +78,8 @@ real-time streaming and processing. Written in pure C, it is based
 upon the oRTP library.
 
 %files
-%{_bindir}/mediastream
-%{_bindir}/mkvstream
+%{_bindir}/%{name}2-mediastream
+%{_bindir}/%{name}2-mkvstream
 %dir %{_datadir}/images/
 %{_datadir}/images/nowebcamCIF.jpg
 
@@ -92,7 +95,7 @@ real-time streaming and processing. Written in pure C, it is based
 upon the oRTP library.
 
 %files -n %{libname}
-%{_libdir}/libmediastreamer.so.%{major}*
+%{_libdir}/libmediastreamer2.so.%{major}*
 %{_libdir}/mediastreamer/plugins
 
 #---------------------------------------------------------------------------
@@ -114,10 +117,9 @@ develop programs using the mediastreamer library.
 
 %files -n %{devname}
 %{_includedir}/mediastreamer2/
-%{_libdir}/libmediastreamer.so
+%{_libdir}/libmediastreamer2.so
 %{_libdir}/pkgconfig/mediastreamer.pc
-%dir %{_libdir}/cmake/Mediastreamer2
-%{_libdir}/cmake/Mediastreamer2/*.cmake
+%{_datadir}/cmake/Mediastreamer2
 
 #---------------------------------------------------------------------------
 
@@ -133,6 +135,7 @@ sed -i -e '/mediastreamer2/s/\(VERSION\)\s\+[0-9]\(\.[0-9]\)\+/\1 %{version}/' C
 sed -i -e "s|zxing/|ZXing/|g" cmake/FindZXing.cmake
 
 %build
+export CXXFLAGS="%{optflags} -I%{_includedir}/bcmatroska2/"
 %cmake \
 	-DENABLE_STATIC:BOOL=%{?with_static:ON}%{?!with_static:OFF} \
 	-DENABLE_STRICT:BOOL=%{?with_strict:ON}%{?!with_strict:OFF} \
@@ -142,11 +145,17 @@ sed -i -e "s|zxing/|ZXing/|g" cmake/FindZXing.cmake
 	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_QT_GL:BOOL=%{?with_qtgl:ON}%{!?with_qtgl:OFF} \
 	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
+	-DENABLE_BV16:BOOL=OFF \
+	-DENABLE_G729:BOOL=OFF \
 	-G Ninja
 
 %ninja_build
 
 %install
 %ninja_install -C build
+
+# fix lib name
+#mv %{buildroot}/%{_libdir}/libmediastreamer2.so %{buildroot}/%{_libdir}/libmediastreamer2.so.%{major}
+#ln -s  libmediastreamer2.so.%{major} %{buildroot}/%{_libdir}/libmediastreamer2.so
 
 #find_lang %{name}
