@@ -23,8 +23,8 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	5.3.6
-Release:	2
+Version:	5.3.15
+Release:	1
 License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
@@ -105,7 +105,8 @@ upon the oRTP library.
 
 %files -n %{libname}
 %{_libdir}/libmediastreamer2.so.%{major}*
-%{_libdir}/mediastreamer/plugins
+%dir %{_libdir}/%{name}/plugins/
+%{_libdir}/%{name}/plugins/*
 
 #---------------------------------------------------------------------------
 
@@ -162,4 +163,7 @@ export CXXFLAGS="%{optflags} -I%{_includedir}/bcmatroska2/"
 
 %install
 %ninja_install -C build
+
+# FIXME: manually create plugin directory
+install -dm 0755 %{buildroot}%{_libdir}/%{name}/plugins
 
