@@ -2,17 +2,31 @@
 %define libname %mklibname %{name}
 %define devname %mklibname %{name} -d
 
-# exclude unwanter cmake requires
+# exclude unwanted cmake provides
+%global __provides_exclude_from ^%{_datadir}/cmake/.*/Find.*cmake$
+
+# exclude unwanted cmake requires
 %global __requires_exclude cmake\\(arts\\)|cmake\\(Arts\\) \
 	|cmake\\(bcg729\\)|cmake\\(BCG729\\) \
 	|cmake\\(bv16\\)|cmake\\(BV16\\) \
 	|cmake\\(camapi\\)|cmake\\(CamApi\\) \
+	|cmake\\(gsm\\)|cmake\\(GSM\\) \
+	|cmake\\(ffmpeg\\)|cmake\\(FFMpeg\\) \
+	|cmake\\(libyuv\\)|cmake\\(LibYUV\\) \
+	|cmake\\(opus\\)|cmake\\(Opus\\) \
 	|cmake\\(pcap\\)|cmake\\(PCAP\\) \
 	|cmake\\(portaudio\\)|cmake\\(PortAudio\\) \
 	|cmake\\(qnxaudiomanager\\)|cmake\\(QnxAudioManager\\) \
 	|cmake\\(qsa\\)|cmake\\(QSA\\) \
 	|cmake\\(screen\\)|cmake\\(Screen\\) \
-	|cmake\\(spandsp\\)|cmake\\(SpanDSP\\)
+	|cmake\\(spandsp\\)|cmake\\(SpanDSP\\) \
+	|cmake\\(srtp\\)|cmake\\(SRTP\\) \
+	|cmake\\(speex\\)|cmake\\(Speex\\) \
+	|cmake\\(speexdsp\\)|cmake\\(SpeexDSP\\) \
+	|cmake\\(theora\\)|cmake\\(Theora\\) \
+	|cmake\\(v4l\\)|cmake\\(V4L\\) \
+	|cmake\\(vpx\\)|cmake\\(VPX\\) \
+	|cmake\\(turbojpeg\\)|cmake\\(TurboJpeg\\)
 
 %bcond_with	doc
 %bcond_without	qtgl
@@ -24,7 +38,7 @@
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
 Version:	5.3.15
-Release:	1
+Release:	3
 License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
@@ -146,17 +160,18 @@ sed -i -e "s|zxing/|ZXing/|g" cmake/FindZXing.cmake
 
 %build
 export CXXFLAGS="%{optflags} -I%{_includedir}/bcmatroska2/"
-%cmake \
+#	-DENABLE_ZRTP:BOOL=%{?with_zrtp:ON}%{!?with_zrtp:OFF} \
+
+%cmake -Wno-dev \
+	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
 	-DENABLE_STATIC:BOOL=%{?with_static:ON}%{?!with_static:OFF} \
 	-DENABLE_STRICT:BOOL=%{?with_strict:ON}%{?!with_strict:OFF} \
-	-DENABLE_ZRTP:BOOL=%{?with_zrtp:ON}%{!?with_zrtp:OFF} \
 	-DENABLE_DOC=%{?with_doc:ON}%{?!with_doc:OFF} \
 	-DENABLE_UNIT_TESTS=%{?with_tests:ON}%{?!with_tests:OFF} \
-	-DOpenGL_GL_PREFERENCE=GLVND \
 	-DENABLE_QT_GL:BOOL=%{?with_qtgl:ON}%{!?with_qtgl:OFF} \
-	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
 	-DENABLE_BV16:BOOL=OFF \
 	-DENABLE_G729:BOOL=OFF \
+	-DOpenGL_GL_PREFERENCE=GLVND \
 	-G Ninja
 
 %ninja_build
