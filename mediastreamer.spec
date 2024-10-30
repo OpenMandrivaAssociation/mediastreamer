@@ -28,16 +28,16 @@
 	|cmake\\(vpx\\)|cmake\\(VPX\\) \
 	|cmake\\(turbojpeg\\)|cmake\\(TurboJpeg\\)
 
-%bcond_with	doc
-%bcond_without	qtgl
-%bcond_with	static
-%bcond_with	strict
-%bcond_with	tests
-%bcond_without	zrtp
+%bcond doc			0
+%bcond qtgl			1
+%bcond strict			0
+%bcond unit_tests		1
+%bcond unit_tests_install	0
+%bcond zrtp			1
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	5.3.93
+Version:	5.3.94
 Release:	1
 License:	GPL-2.0+
 Group:		Communications
@@ -49,7 +49,7 @@ Patch2:		mediastreamer2-5.3.6-cmake-config-location.patch
 Patch3:		mediastreamer-cmake-fix-opengl-include.patch
 Patch4:		mediastreamer2-5.3.6-cmake-dont-use-bc_git_version.patch
 Patch5:		mediastreamer2-5.0.66-ffmpeg-6.0.patch
-Patch6:		mediastreamer2-5.3.6-fix_zxing.patch
+Patch6:		mediastreamer2-5.3.93-fix_zxing.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	libtool
@@ -92,7 +92,7 @@ BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xext)
 BuildRequires:	pkgconfig(xv)
 BuildRequires:	pkgconfig(vpx)
-BuildRequires:  qmake5
+BuildRequires:  qmake-qt6
 BuildRequires:	vim-common
 
 %description
@@ -105,6 +105,10 @@ upon the oRTP library.
 %{_bindir}/%{name}2-mkvstream
 %dir %{_datadir}/images/
 %{_datadir}/images/nowebcamCIF.jpg
+%if %{with unit_tests} && %{with unit_tests_install}
+%{_bindir}/%{name}2-tester
+%{_datadir}/%{name}2-tester/
+%endif
 
 #---------------------------------------------------------------------------
 
@@ -164,10 +168,10 @@ export CXXFLAGS="%{optflags} -I%{_includedir}/bcmatroska2/"
 
 %cmake -Wno-dev \
 	-DCONFIG_PACKAGE_LOCATION:PATH=%{_libdir}/cmake/Mediastreamer2 \
-	-DENABLE_STATIC:BOOL=%{?with_static:ON}%{?!with_static:OFF} \
 	-DENABLE_STRICT:BOOL=%{?with_strict:ON}%{?!with_strict:OFF} \
 	-DENABLE_DOC=%{?with_doc:ON}%{?!with_doc:OFF} \
-	-DENABLE_UNIT_TESTS=%{?with_tests:ON}%{?!with_tests:OFF} \
+	-DENABLE_NON_FREE_FEATURES:BOOL=NO \
+	-DENABLE_UNIT_TESTS:BOOL=%{?with_unit_tests:ON}%{?!with_unit_tests:OFF} \
 	-DENABLE_QT_GL:BOOL=%{?with_qtgl:ON}%{!?with_qtgl:OFF} \
 	-DENABLE_BV16:BOOL=OFF \
 	-DENABLE_G729:BOOL=OFF \
@@ -180,5 +184,18 @@ export CXXFLAGS="%{optflags} -I%{_includedir}/bcmatroska2/"
 %ninja_install -C build
 
 # FIXME: manually create plugin directory
-install -dm 0755 %{buildroot}%{_libdir}/%{name}/plugins
+#install -dm 0755 %{buildroot}%{_libdir}/%{name}/plugins
+
+# don't install unit tester
+%if %{with unit_tests} && ! %{with unit_tests_install}
+rm -f  %{buildroot}%{_bindir}/%{name}2-tester
+rm -fr %{buildroot}%{_datadir}/%{name}2-tester/
+%endif
+
+%check
+%if %{with unit_tests}
+pushd build
+ctest
+popd
+%endif
 
