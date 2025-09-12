@@ -43,13 +43,6 @@ License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
 Source0:	https://gitlab.linphone.org/BC/public/mediastreamer2/-/archive/%{version}/mediastreamer2-%{version}.tar.bz2
-Patch0:		mediastreamer2-5.3.6-soname.patch
-Patch1:		mediastreamer-cmake-install-pkgconfig-pc-file.patch
-Patch2:		mediastreamer2-5.3.6-cmake-config-location.patch
-Patch3:		mediastreamer-cmake-fix-opengl-include.patch
-Patch4:		mediastreamer2-5.3.6-cmake-dont-use-bc_git_version.patch
-Patch5:		mediastreamer2-5.0.66-ffmpeg-6.0.patch
-Patch6:		mediastreamer2-5.3.93-fix_zxing.patch
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	libtool
@@ -95,6 +88,15 @@ BuildRequires:	pkgconfig(vpx)
 BuildRequires:  qmake-qt6
 BuildRequires:	vim-common
 
+%patchlist
+mediastreamer2-5.3.6-soname.patch
+mediastreamer-cmake-install-pkgconfig-pc-file.patch
+mediastreamer2-5.3.6-cmake-config-location.patch
+mediastreamer-cmake-fix-opengl-include.patch
+mediastreamer2-5.3.6-cmake-dont-use-bc_git_version.patch
+mediastreamer2-5.0.66-ffmpeg-6.0.patch
+mediastreamer2-5.3.93-fix_zxing.patch
+
 %description
 mediastreamer is a GPL licensed library to make audio and video
 real-time streaming and processing. Written in pure C, it is based
@@ -103,6 +105,8 @@ upon the oRTP library.
 %files
 %{_bindir}/%{name}2-mediastream
 %{_bindir}/%{name}2-mkvstream
+%{_bindir}/%{name}2-player
+%{_bindir}/%{name}2-recorder
 %dir %{_datadir}/images/
 %{_datadir}/images/nowebcamCIF.jpg
 %if %{with unit_tests} && %{with unit_tests_install}
