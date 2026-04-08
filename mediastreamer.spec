@@ -37,8 +37,8 @@
 
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
-Version:	5.4.42
-Release:	2
+Version:	5.4.106
+Release:	1
 License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
@@ -96,6 +96,7 @@ mediastreamer-cmake-fix-opengl-include.patch
 mediastreamer2-5.3.6-cmake-dont-use-bc_git_version.patch
 mediastreamer2-5.0.66-ffmpeg-6.0.patch
 mediastreamer2-5.3.93-fix_zxing.patch
+mediastreamer2-5.4.106-ffmpeg-8.patch
 
 %description
 mediastreamer is a GPL licensed library to make audio and video

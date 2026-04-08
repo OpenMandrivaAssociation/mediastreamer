@@ -1,0 +1,49 @@
+diff -up mediastreamer2-5.4.106/src/videofilters/h264dec.cpp.omv~ mediastreamer2-5.4.106/src/videofilters/h264dec.cpp
+--- mediastreamer2-5.4.106/src/videofilters/h264dec.cpp.omv~	2026-04-09 00:00:23.447208386 +0200
++++ mediastreamer2-5.4.106/src/videofilters/h264dec.cpp	2026-04-09 00:02:01.455790352 +0200
+@@ -115,7 +115,8 @@ static void dec_preprocess(MSFilter *f)
+ }
+ 
+ static void dec_reinit(DecData *d) {
+-	avcodec_close(&d->av_context);
++	if(avcodec_is_open(&d->av_context))
++		avcodec_flush_buffers(&d->av_context);
+ 	dec_open(d);
+ }
+ 
+@@ -127,7 +128,8 @@ static void dec_postprocess(MSFilter *f)
+ static void dec_uninit(MSFilter *f) {
+ 	DecData *d = (DecData *)f->data;
+ 	delete d->unpacker;
+-	avcodec_close(&d->av_context);
++	if(avcodec_is_open(&d->av_context))
++		avcodec_flush_buffers(&d->av_context);
+ 	if (d->sps) freemsg(d->sps);
+ 	if (d->pps) freemsg(d->pps);
+ 	if (d->orig) av_frame_free(&d->orig);
+diff -up mediastreamer2-5.4.106/src/videofilters/videodec.c.omv~ mediastreamer2-5.4.106/src/videofilters/videodec.c
+--- mediastreamer2-5.4.106/src/videofilters/videodec.c.omv~	2026-04-09 00:02:42.064855549 +0200
++++ mediastreamer2-5.4.106/src/videofilters/videodec.c	2026-04-09 00:02:58.758670244 +0200
+@@ -119,7 +119,8 @@ static void dec_uninit(MSFilter *f) {
+ 		s->orig = NULL;
+ 	}
+ 	if (s->av_context.codec != NULL) {
+-		avcodec_close(&s->av_context);
++		if(avcodec_is_open(&s->av_context))
++			avcodec_flush_buffers(&s->av_context);
+ 		s->av_context.codec = NULL;
+ 	}
+ 	ms_yuv_buf_allocator_free(s->allocator);
+diff -up mediastreamer2-5.4.106/src/videofilters/videoenc.c.omv~ mediastreamer2-5.4.106/src/videofilters/videoenc.c
+--- mediastreamer2-5.4.106/src/videofilters/videoenc.c.omv~	2026-04-09 00:02:09.848475113 +0200
++++ mediastreamer2-5.4.106/src/videofilters/videoenc.c	2026-04-09 00:02:29.761088978 +0200
+@@ -386,7 +386,8 @@ static void enc_preprocess(MSFilter *f)
+ static void enc_postprocess(MSFilter *f) {
+ 	EncState *s = (EncState *)f->data;
+ 	if (s->av_context.codec != NULL) {
+-		avcodec_close(&s->av_context);
++		if(avcodec_is_open(&s->av_context))
++			avcodec_flush_buffers(&s->av_context);
+ 		s->av_context.codec = NULL;
+ 	}
+ 	if (s->comp_buf != NULL) {
