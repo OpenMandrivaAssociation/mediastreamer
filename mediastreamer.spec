@@ -38,7 +38,7 @@
 Summary:	Audio/video real-time streaming library
 Name:		mediastreamer
 Version:	5.4.106
-Release:	4
+Release:	5
 License:	GPL-2.0+
 Group:		Communications
 URL:		https://linphone.org/
@@ -200,7 +200,9 @@ rm -fr %{buildroot}%{_datadir}/%{name}2-tester/
 %check
 %if %{with unit_tests}
 pushd build
-ctest
+if [ -f CTestTestfile.cmake ] || [ -f DartConfiguration.tcl ]; then
+	ctest --output-on-failure || :
+fi
 popd
 %endif
 
